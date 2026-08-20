@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Amal Taxi - Taxi professionnel en Île-de-France. Réservation de taxi en ligne.">
+<meta name="theme-color" content="#111111">
+<title>Amal Taxi | Taxi Île-de-France</title>
+<style>
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#f4f4f4;color:#111}
+a{text-decoration:none}.wrap{max-width:1100px;margin:auto;padding:0 18px}
+header{background:#111;color:#fff;position:sticky;top:0;z-index:10;box-shadow:0 2px 12px #0004}
+.nav{height:68px;display:flex;align-items:center;justify-content:space-between}
+.logo{font-size:25px;font-weight:900}.logo b{color:#f5c400}
+.call{background:#f5c400;color:#111;padding:12px 16px;border-radius:9px;font-weight:800}
+.hero{background:linear-gradient(135deg,#171717,#292929);color:#fff;padding:55px 0 70px}
+.hero-grid{display:grid;grid-template-columns:1fr 1fr;gap:38px;align-items:center}
+.tag{display:inline-block;background:#f5c400;color:#111;border-radius:30px;padding:8px 13px;font-weight:800;margin-bottom:18px}
+h1{font-size:52px;line-height:1.05;margin:0 0 18px}h1 span{color:#f5c400}
+.hero p{font-size:19px;line-height:1.6;color:#ddd;max-width:560px}
+.actions{margin-top:25px}.btn{display:inline-block;border:0;border-radius:10px;padding:15px 20px;font-size:16px;font-weight:800;margin:4px;cursor:pointer}
+.yellow{background:#f5c400;color:#111}.darkbtn{background:#fff;color:#111}
+.booking{background:#fff;color:#111;border-radius:22px;padding:25px;box-shadow:0 15px 40px #0005}
+.booking h2{font-size:28px;margin:0 0 6px}.booking .sub{color:#666;margin:0 0 20px}
+label{display:block;font-weight:700;font-size:14px;margin-bottom:6px}.field{margin-bottom:14px}
+input,textarea{width:100%;border:1px solid #ddd;border-radius:9px;padding:14px;font-size:15px;background:#fff}
+input:focus,textarea:focus{outline:2px solid #f5c400;border-color:#f5c400}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}.full{width:100%}
+.security{font-size:12px;color:#777;text-align:center;margin-top:10px}
+section.content{padding:58px 0}.title{text-align:center;margin-bottom:30px}.title h2{font-size:33px;margin:0 0 8px}.title p{color:#666}
+.services{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}.service{background:#fff;border:1px solid #e5e5e5;border-radius:16px;padding:23px;text-align:center}.icon{font-size:32px;margin-bottom:9px}.service p{color:#666;font-size:14px;line-height:1.5}
+.dark{background:#111;color:#fff}.dark .title p{color:#bbb}.points{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}.point{background:#1e1e1e;border-radius:11px;padding:17px;font-weight:700}.point span{color:#f5c400;margin-right:8px}
+.contact{background:#fff;border-radius:20px;padding:35px;text-align:center;border:1px solid #e5e5e5}.contact h2{margin:0 0 8px;font-size:30px}.bigphone{display:block;color:#111;font-size:30px;font-weight:900;margin:18px}.whatsapp{background:#20b15a;color:#fff}
+footer{background:#080808;color:#aaa;text-align:center;padding:28px 18px}footer strong{color:#fff}
+#success{display:none;background:#e9fff1;border:1px solid #86d7a4;color:#176b38;border-radius:10px;padding:13px;margin-top:12px;text-align:center;font-weight:700}
+@media(max-width:800px){.hero-grid{grid-template-columns:1fr}.services{grid-template-columns:1fr 1fr}h1{font-size:43px}}
+@media(max-width:550px){.call{display:none}.hero{padding:42px 0 55px}h1{font-size:39px}.row,.points,.services{grid-template-columns:1fr}.booking{padding:20px}.hero p{font-size:17px}}
+</style>
+</head>
+<body>
+
+<header>
+<div class="wrap nav">
+<div class="logo">🚕 AMAL <b>TAXI</b></div>
+<a class="call" href="tel:+33652777753">📞 06 52 77 77 53</a>
+</div>
+</header>
+
+<section class="hero">
+<div class="wrap hero-grid">
+<div>
+<div class="tag">🚕 TAXI – ÎLE-DE-FRANCE</div>
+<h1>Votre taxi,<br><span>simplement.</span></h1>
+<p>Réservez votre taxi en quelques secondes. Votre demande est envoyée à Amal Taxi et confirmée avant la course.</p>
+<div class="actions">
+<a class="btn yellow" href="#reservation">🚕 RÉSERVER UN TAXI</a>
+<a class="btn darkbtn" href="tel:+33652777753">📞 APPELER</a>
+</div>
+</div>
+
+<div class="booking" id="reservation">
+<h2>Réserver un taxi</h2>
+<p class="sub">Demande de réservation</p>
+<form id="bookingForm">
+<div class="field"><label>📍 Prise en charge</label><input id="depart" required placeholder="Adresse de départ"></div>
+<div class="field"><label>📍 Destination</label><input id="dest" required placeholder="Destination"></div>
+<div class="row">
+<div class="field"><label>📅 Date</label><input id="date" type="date" required></div>
+<div class="field"><label>🕐 Heure</label><input id="time" type="time" required></div>
+</div>
+<div class="field"><label>👤 Nom</label><input id="name" required placeholder="Votre nom"></div>
+<div class="field"><label>📱 Téléphone</label><input id="tel" type="tel" required placeholder="06 00 00 00 00"></div>
+<div class="field"><label>📝 Informations complémentaires</label><textarea id="info" rows="3" placeholder="Passagers, bagages..."></textarea></div>
+<button class="btn yellow full" type="submit">ENVOYER MA DEMANDE</button>
+<div id="success">Votre demande est prête. WhatsApp va s'ouvrir pour l'envoyer à Amal Taxi.</div>
+<div class="security">🔒 Vos informations sont utilisées uniquement pour votre demande de taxi.</div>
+</form>
+</div>
+</div>
+</section>
+
+<section class="content">
+<div class="wrap">
+<div class="title"><h2>Nos services Taxi</h2><p>Un service Taxi simple et professionnel</p></div>
+<div class="services">
+<div class="service"><div class="icon">🚕</div><h3>Taxi toutes distances</h3><p>Déplacements en Île-de-France et au-delà.</p></div>
+<div class="service"><div class="icon">✈️</div><h3>Aéroports</h3><p>CDG, Orly et autres aéroports.</p></div>
+<div class="service"><div class="icon">🚉</div><h3>Gares</h3><p>Prise en charge et transferts vers les gares.</p></div>
+<div class="service"><div class="icon">📅</div><h3>Sur réservation</h3><p>Réservez votre course à l'avance.</p></div>
+</div>
+</div>
+</section>
+
+<section class="dark">
+<div class="wrap content">
+<div class="title"><h2>Pourquoi Amal Taxi ?</h2><p>Votre demande est traitée directement par le Taxi.</p></div>
+<div class="points">
+<div class="point"><span>✓</span> Taxi professionnel</div>
+<div class="point"><span>✓</span> Réservation en ligne</div>
+<div class="point"><span>✓</span> Confirmation avant la course</div>
+<div class="point"><span>✓</span> Contact direct</div>
+</div>
+</div>
+</section>
+
+<section class="content">
+<div class="wrap">
+<div class="contact">
+<h2>Besoin d'un Taxi ?</h2><p>Contactez Amal Taxi directement.</p>
+<a class="bigphone" href="tel:+33652777753">06 52 77 77 53</a>
+<a class="btn whatsapp" href="https://wa.me/33652777753" target="_blank">💬 WhatsApp</a>
+<a class="btn yellow" href="#reservation">🚕 Réserver</a>
+</div>
+</div>
+</section>
+
+<footer><strong>AMAL TAXI</strong><br>Taxi – Île-de-France<br><br>© 2026 Amal Taxi — Tous droits réservés.</footer>
+
+<script>
+document.getElementById("bookingForm").addEventListener("submit",function(e){
+e.preventDefault();
+const msg="🚕 DEMANDE DE RÉSERVATION AMAL TAXI\n\n"+
+"👤 Nom : "+document.getElementById("name").value+"\n"+
+"📱 Téléphone : "+document.getElementById("tel").value+"\n"+
+"📍 Départ : "+document.getElementById("depart").value+"\n"+
+"📍 Destination : "+document.getElementById("dest").value+"\n"+
+"📅 Date : "+document.getElementById("date").value+"\n"+
+"🕐 Heure : "+document.getElementById("time").value+"\n"+
+"📝 Infos : "+document.getElementById("info").value;
+document.getElementById("success").style.display="block";
+window.open("https://wa.me/33652777753?text="+encodeURIComponent(msg),"_blank");
+});
+</script>
+</body>
+</html>
