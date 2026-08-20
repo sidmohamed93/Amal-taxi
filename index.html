@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Amal Taxi – Taxi et réservation en Île-de-France">
+<title>Amal Taxi – Réservation</title>
+<style>
+:root{--black:#111;--gold:#f5c400;--bg:#f4f5f7;--green:#25D366;--card:#fff}
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:var(--bg);color:#111}
+header{background:linear-gradient(135deg,#111,#292929);color:#fff;text-align:center;padding:32px 18px 70px}
+.logo{font-size:42px;font-weight:800}.logo .gold{color:var(--gold)}
+header p{margin:8px 0 0;color:#ddd;font-size:17px}
+.container{max-width:820px;margin:-38px auto 30px;padding:0 16px}
+.card{background:#fff;border-radius:24px;padding:28px;box-shadow:0 8px 30px #00000012;margin-bottom:22px}
+h1{font-size:30px;text-align:center;margin:0 0 14px}h2{font-size:25px;margin:0 0 18px}
+.intro{text-align:center;color:#666;line-height:1.7;font-size:17px}
+.phone,.whatsapp{display:block;color:#fff;text-align:center;text-decoration:none;font-size:20px;font-weight:700;padding:16px;border-radius:16px;margin:12px auto;max-width:310px}
+.phone{background:#111}.whatsapp{background:var(--green)}
+form{display:grid;gap:14px}
+label{font-weight:700;font-size:15px}
+input,select,textarea{width:100%;padding:14px;border:1px solid #ddd;border-radius:12px;font-size:16px;background:#fff}
+input:focus{outline:none;border:2px solid var(--gold)}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.field{position:relative}
+.suggestions{position:absolute;left:0;right:0;top:76px;background:#fff;border:1px solid #ddd;border-radius:0 0 12px 12px;box-shadow:0 8px 20px #0002;z-index:1000;display:none;max-height:300px;overflow-y:auto}
+.suggestion{padding:13px 14px;border-bottom:1px solid #eee;cursor:pointer;font-size:15px;line-height:1.35}
+.suggestion:hover,.suggestion:active{background:#fff8d6}
+.suggestion strong{display:block}.city{color:#666;margin-top:3px}
+.airport{font-weight:700}
+button{border:0;background:#111;color:#fff;padding:16px;border-radius:14px;font-size:18px;font-weight:700;cursor:pointer}
+button:hover{opacity:.9}
+.route-result{display:none;background:#f8f8f8;border-radius:16px;padding:18px;margin-top:2px}
+.route-row{font-size:18px;font-weight:700;margin:8px 0}
+.route-note{font-size:13px;color:#777;margin-top:8px}
+.waze{display:block;background:#10a9e8;color:#fff;text-align:center;text-decoration:none;padding:14px;border-radius:12px;font-weight:700;margin-top:14px}
+.note{font-size:13px;color:#777;text-align:center;margin-top:12px}
+.services{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.service{background:#f1f2f4;border-radius:18px;padding:20px}
+.service strong{display:block;font-size:21px;margin-bottom:8px}.service span{font-size:16px;color:#444;line-height:1.4}
+footer{text-align:center;color:#777;padding:10px 20px 35px}
+@media(max-width:600px){.logo{font-size:38px}.grid,.services{grid-template-columns:1fr}.card{padding:22px}h1{font-size:28px}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">🚕 <span class="gold">Amal</span> Taxi</div>
+  <p>Taxi & réservation — Île-de-France</p>
+</header>
+
+<main class="container">
+
+<section class="card">
+  <h1>Réservez votre taxi simplement</h1>
+  <p class="intro">Indiquez votre trajet. Les adresses sont proposées automatiquement et le site calcule la distance et le temps de trajet.</p>
+  <a class="phone" href="tel:+33652777753">📞 06 52 77 77 53</a>
+  <a class="whatsapp" href="https://wa.me/33652777753" target="_blank">💬 WhatsApp</a>
+</section>
+
+<section class="card">
+<h2>🚕 Demande de réservation</h2>
+<form id="bookingForm">
+
+<div class="grid">
+  <div>
+    <label for="name">Nom *</label>
+    <input id="name" required placeholder="Votre nom">
+  </div>
+  <div>
+    <label for="phone">Téléphone *</label>
+    <input id="phone" type="tel" required placeholder="06...">
+  </div>
+</div>
+
+<div class="field">
+  <label for="departure">📍 Adresse de départ *</label>
+  <input id="departure" required autocomplete="off" placeholder="Ex : 12 rue de Paris">
+  <div id="departureSuggestions" class="suggestions"></div>
+</div>
+
+<div class="field">
+  <label for="destination">🏁 Adresse d'arrivée *</label>
+  <input id="destination" required autocomplete="off" placeholder="Ex : Aéroport Orly Terminal 1">
+  <div id="destinationSuggestions" class="suggestions"></div>
+</div>
+
+<div id="routeResult" class="route-result">
+  <div class="route-row">📏 Distance : <span id="routeDistance">—</span></div>
+  <div class="route-row">⏱️ Temps estimé : <span id="routeDuration">—</span></div>
+  <div class="route-note">Temps routier estimé, hors trafic en temps réel.</div>
+  <a id="waze" class="waze" target="_blank" rel="noopener">🗺️ Ouvrir dans Waze</a>
+</div>
+
+<div class="grid">
+  <div>
+    <label for="date">📅 Date *</label>
+    <input id="date" type="date" required>
+  </div>
+  <div>
+    <label for="time">🕐 Heure *</label>
+    <input id="time" type="time" required>
+  </div>
+</div>
+
+<div>
+  <label for="passengers">👥 Nombre de passagers</label>
+  <select id="passengers">
+    <option>1</option><option>2</option><option>3</option><option>4</option>
+    <option>5</option><option>6</option><option>7</option><option>8</option>
+  </select>
+</div>
+
+<div>
+  <label for="message">Message / précision</label>
+  <textarea id="message" rows="3" placeholder="Bagages, siège enfant, adresse précise..."></textarea>
+</div>
+
+<button type="submit">💬 Envoyer la réservation sur WhatsApp</button>
+<div class="note">La réservation est confirmée après réponse du chauffeur.</div>
+</form>
+</section>
+
+<section class="card">
+<h2>Nos services</h2>
+<div class="services">
+<div class="service"><strong>🚕 Trajets</strong><span>Déplacements en Île-de-France</span></div>
+<div class="service"><strong>✈️ Aéroports</strong><span>CDG, Orly et autres aéroports</span></div>
+<div class="service"><strong>📅 Réservation</strong><span>Réservez à l'avance facilement</span></div>
+<div class="service"><strong>💶 Devis</strong><span>Demandez votre tarif personnalisé</span></div>
+</div>
+</section>
+
+</main>
+<footer>© 2026 Amal Taxi — Île-de-France</footer>
+
+<script>
+const selected={departure:null,destination:null};
+const timers={departure:null,destination:null};
+
+const terminals=[
+["✈️ CDG Terminal 1","Aéroport Charles de Gaulle Terminal 1, Roissy-en-France"],
+["✈️ CDG Terminal 2A","Aéroport Charles de Gaulle Terminal 2A, Roissy-en-France"],
+["✈️ CDG Terminal 2B","Aéroport Charles de Gaulle Terminal 2B, Roissy-en-France"],
+["✈️ CDG Terminal 2C","Aéroport Charles de Gaulle Terminal 2C, Roissy-en-France"],
+["✈️ CDG Terminal 2D","Aéroport Charles de Gaulle Terminal 2D, Roissy-en-France"],
+["✈️ CDG Terminal 2E","Aéroport Charles de Gaulle Terminal 2E, Roissy-en-France"],
+["✈️ CDG Terminal 2F","Aéroport Charles de Gaulle Terminal 2F, Roissy-en-France"],
+["✈️ CDG Terminal 2G","Aéroport Charles de Gaulle Terminal 2G, Le Mesnil-Amelot"],
+["✈️ Orly Terminal 1","Aéroport Paris-Orly Terminal 1, Orly"],
+["✈️ Orly Terminal 2","Aéroport Paris-Orly Terminal 2, Orly"],
+["✈️ Orly Terminal 3","Aéroport Paris-Orly Terminal 3, Orly"],
+["✈️ Orly Terminal 4","Aéroport Paris-Orly Terminal 4, Orly"]
+];
+
+async function searchAddresses(text){
+  const url="https://data.geopf.fr/geocodage/search?"+
+    new URLSearchParams({q:text,limit:"6",autocomplete:"1"});
+  const r=await fetch(url,{headers:{"Accept":"application/json"}});
+  if(!r.ok)throw new Error("Service d'adresses indisponible");
+  const data=await r.json();
+  return Array.isArray(data.features)?data.features:[];
+}
+
+function getLabel(f){
+  const p=f.properties||{};
+  return p.label||p.name||p.fulltext||
+    [p.housenumber,p.street||p.name,p.postcode,p.city||p.municipality].filter(Boolean).join(" ");
+}
+
+async function terminalCoords(label){
+  try{
+    const fs=await searchAddresses(label);
+    if(fs.length && fs[0].geometry){
+      const c=fs[0].geometry.coordinates;
+      return {lon:Number(c[0]),lat:Number(c[1]),label};
+    }
+  }catch(e){}
+  return null;
+}
+
+function setupAutocomplete(inputId,listId,key){
+  const input=document.getElementById(inputId);
+  const list=document.getElementById(listId);
+
+  input.addEventListener("input",()=>{
+    selected[key]=null;
+    clearTimeout(timers[key]);
+    const text=input.value.trim();
+    list.innerHTML="";
+
+    if(text.length<2){list.style.display="none";return;}
+
+    const q=text.toLowerCase();
+
+    terminals.filter(t=>t[0].toLowerCase().includes(q)||t[1].toLowerCase().includes(q))
+    .forEach(t=>{
+      const div=document.createElement("div");
+      div.className="suggestion airport";
+      div.innerHTML="<strong>"+t[0]+"</strong><div class='city'>"+t[1]+"</div>";
+      div.onclick=async()=>{
+        input.value=t[1];
+        list.innerHTML="";
+        list.style.display="none";
+        selected[key]=await terminalCoords(t[1]);
+        if(selected[key]) await updateRoute();
+      };
+      list.appendChild(div);
+    });
+
+    timers[key]=setTimeout(async()=>{
+      try{
+        const features=await searchAddresses(text);
+
+        features.forEach(f=>{
+          const coords=f.geometry&&f.geometry.coordinates;
+          if(!coords||coords.length<2)return;
+
+          const p=f.properties||{};
+          const label=getLabel(f);
+          if(!label)return;
+
+          const div=document.createElement("div");
+          div.className="suggestion";
+          const title=document.createElement("strong");
+          title.textContent="📍 "+label;
+          div.appendChild(title);
+
+          const city=[p.postcode,p.city||p.municipality].filter(Boolean).join(" ");
+          if(city&&!label.includes(city)){
+            const c=document.createElement("div");
+            c.className="city";
+            c.textContent=city;
+            div.appendChild(c);
+          }
+
+          div.onclick=async()=>{
+            input.value=label;
+            selected[key]={lon:Number(coords[0]),lat:Number(coords[1]),label};
+            list.innerHTML="";
+            list.style.display="none";
+            await updateRoute();
+          };
+          list.appendChild(div);
+        });
+
+        list.style.display=list.children.length?"block":"none";
+      }catch(e){
+        console.error(e);
+        list.style.display=list.children.length?"block":"none";
+      }
+    },300);
+  });
+
+  document.addEventListener("click",e=>{
+    if(!input.contains(e.target)&&!list.contains(e.target))list.style.display="none";
+  });
+}
+
+setupAutocomplete("departure","departureSuggestions","departure");
+setupAutocomplete("destination","destinationSuggestions","destination");
+
+async function geocode(text){
+  const fs=await searchAddresses(text);
+  if(!fs.length)throw new Error("Adresse introuvable");
+  const c=fs[0].geometry.coordinates;
+  return {lon:Number(c[0]),lat:Number(c[1]),label:getLabel(fs[0])};
+}
+
+async function updateRoute(){
+  let a=selected.departure,b=selected.destination;
+  const from=document.getElementById("departure").value.trim();
+  const to=document.getElementById("destination").value.trim();
+
+  if(!from||!to)return;
+
+  const box=document.getElementById("routeResult");
+  const dist=document.getElementById("routeDistance");
+  const dur=document.getElementById("routeDuration");
+  const waze=document.getElementById("waze");
+
+  box.style.display="block";
+  dist.textContent="Calcul...";
+  dur.textContent="Calcul...";
+
+  try{
+    if(!a)a=await geocode(from);
+    if(!b)b=await geocode(to);
+
+    const url="https://router.project-osrm.org/route/v1/driving/"+
+      a.lon+","+a.lat+";"+b.lon+","+b.lat+"?overview=false";
+
+    const r=await fetch(url);
+    if(!r.ok)throw new Error("Calcul impossible");
+    const data=await r.json();
+    if(!data.routes||!data.routes.length)throw new Error("Aucun itinéraire trouvé");
+
+    dist.textContent=(data.routes[0].distance/1000).toFixed(1)+" km";
+    dur.textContent=Math.round(data.routes[0].duration/60)+" min";
+    waze.href="https://www.waze.com/ul?ll="+b.lat+"%2C"+b.lon+"&navigate=yes";
+  }catch(e){
+    dist.textContent="—";
+    dur.textContent="Impossible de calculer";
+  }
+}
+
+document.getElementById("bookingForm").addEventListener("submit",async function(e){
+  e.preventDefault();
+
+  const name=document.getElementById("name").value.trim();
+  const phone=document.getElementById("phone").value.trim();
+  const departure=document.getElementById("departure").value.trim();
+  const destination=document.getElementById("destination").value.trim();
+  const date=document.getElementById("date").value;
+  const time=document.getElementById("time").value;
+  const passengers=document.getElementById("passengers").value;
+  const message=document.getElementById("message").value.trim();
+  const distance=document.getElementById("routeDistance").textContent;
+  const duration=document.getElementById("routeDuration").textContent;
+
+  const text=`🚕 *DEMANDE DE RÉSERVATION — AMAL TAXI*
+
+👤 Nom : ${name}
+📞 Téléphone : ${phone}
+📍 Départ : ${departure}
+🏁 Destination : ${destination}
+📏 Distance : ${distance}
+⏱️ Temps estimé : ${duration}
+📅 Date : ${date}
+🕐 Heure : ${time}
+👥 Passagers : ${passengers}
+📝 Précision : ${message||"Aucune"}
+
+Merci de confirmer la réservation.`;
+
+  window.open("https://wa.me/33652777753?text="+encodeURIComponent(text),"_blank");
+});
+</script>
+</body>
+</html>
