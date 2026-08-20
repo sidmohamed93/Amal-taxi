@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Amal Taxi - Île-de-France</title>
+
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#f4f4f4;color:#111}
+header{background:#111;color:white;padding:18px;text-align:center}
+.logo{font-size:32px;font-weight:bold}
+.logo span{color:#f5c400}
+
+.hero{
+background:#181818;
+color:white;
+text-align:center;
+padding:55px 20px;
+}
+.hero h1{font-size:42px;margin:10px 0}
+.hero h1 span{color:#f5c400}
+.hero p{font-size:19px;color:#ddd}
+
+.btn{
+display:inline-block;
+padding:15px 22px;
+border-radius:10px;
+font-weight:bold;
+margin:8px;
+text-decoration:none;
+}
+.yellow{background:#f5c400;color:#111}
+.white{background:white;color:#111}
+
+.card{
+max-width:650px;
+margin:-25px auto 40px;
+background:white;
+padding:25px;
+border-radius:20px;
+box-shadow:0 10px 30px #0003;
+}
+
+h2{text-align:center;font-size:28px}
+
+label{
+display:block;
+font-weight:bold;
+margin:12px 0 6px;
+}
+
+input,textarea{
+width:100%;
+padding:14px;
+border:1px solid #ddd;
+border-radius:9px;
+font-size:16px;
+}
+
+button{
+width:100%;
+padding:16px;
+border:0;
+border-radius:10px;
+background:#f5c400;
+font-size:17px;
+font-weight:bold;
+margin-top:15px;
+}
+
+.services{
+max-width:1000px;
+margin:40px auto;
+padding:20px;
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:15px;
+}
+
+.service{
+background:white;
+padding:25px 15px;
+border-radius:15px;
+text-align:center;
+box-shadow:0 3px 12px #0001;
+}
+
+.icon{font-size:35px}
+
+.contact{
+background:#111;
+color:white;
+text-align:center;
+padding:45px 20px;
+}
+
+.phone{
+font-size:30px;
+font-weight:bold;
+color:#f5c400;
+display:block;
+margin:20px;
+}
+
+footer{
+background:#080808;
+color:#aaa;
+text-align:center;
+padding:25px;
+}
+
+@media(max-width:700px){
+.services{grid-template-columns:1fr 1fr}
+.hero h1{font-size:36px}
+}
+
+@media(max-width:450px){
+.services{grid-template-columns:1fr}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<div class="logo">🚕 AMAL <span>TAXI</span></div>
+<div>Taxi – Île-de-France</div>
+</header>
+
+<section class="hero">
+<h1>Votre taxi,<br><span>simplement.</span></h1>
+
+<p>
+Réservez votre Taxi en Île-de-France
+</p>
+
+<a class="btn yellow" href="#reservation">
+🚕 RÉSERVER UN TAXI
+</a>
+
+<a class="btn white" href="tel:+33652777753">
+📞 APPELER
+</a>
+</section>
+
+<div class="card" id="reservation">
+
+<h2>🚕 Demande de réservation</h2>
+
+<form onsubmit="reservation(event)">
+
+<label>👤 Nom</label>
+<input id="nom" required placeholder="Votre nom">
+
+<label>📱 Téléphone</label>
+<input id="telephone" type="tel" required placeholder="06 00 00 00 00">
+
+<label>📍 Adresse de départ</label>
+<input id="depart" required placeholder="Adresse de prise en charge">
+
+<label>📍 Destination</label>
+<input id="destination" required placeholder="Destination">
+
+<label>📅 Date</label>
+<input id="date" type="date" required>
+
+<label>🕐 Heure</label>
+<input id="heure" type="time" required>
+
+<label>📝 Informations</label>
+<textarea id="infos" rows="3" placeholder="Nombre de passagers, bagages..."></textarea>
+
+<button type="submit">
+ENVOYER LA DEMANDE
+</button>
+
+</form>
+
+</div>
+
+<section class="services">
+
+<div class="service">
+<div class="icon">🚕</div>
+<h3>Taxi</h3>
+<p>Taxi toutes distances</p>
+</div>
+
+<div class="service">
+<div class="icon">✈️</div>
+<h3>Aéroports</h3>
+<p>CDG • Orly</p>
+</div>
+
+<div class="service">
+<div class="icon">🚉</div>
+<h3>Gares</h3>
+<p>Transferts gares</p>
+</div>
+
+<div class="service">
+<div class="icon">📅</div>
+<h3>Réservation</h3>
+<p>Course sur réservation</p>
+</div>
+
+</section>
+
+<section class="contact">
+
+<h2>Besoin d'un Taxi ?</h2>
+
+<a class="phone" href="tel:+33652777753">
+06 52 77 77 53
+</a>
+
+<a class="btn yellow"
+href="https://wa.me/33652777753"
+target="_blank">
+💬 WhatsApp
+</a>
+
+</section>
+
+<footer>
+<strong>AMAL TAXI</strong><br>
+Taxi – Île-de-France<br><br>
+© 2026 Amal Taxi
+</footer>
+
+<script>
+function reservation(event){
+
+event.preventDefault();
+
+let message =
+"🚕 DEMANDE AMAL TAXI\n\n"+
+"👤 Nom : "+document.getElementById("nom").value+"\n"+
+"📱 Téléphone : "+document.getElementById("telephone").value+"\n"+
+"📍 Départ : "+document.getElementById("depart").value+"\n"+
+"📍 Destination : "+document.getElementById("destination").value+"\n"+
+"📅 Date : "+document.getElementById("date").value+"\n"+
+"🕐 Heure : "+document.getElementById("heure").value+"\n"+
+"📝 Infos : "+document.getElementById("infos").value;
+
+window.open(
+"https://wa.me/33652777753?text="+encodeURIComponent(message),
+"_blank"
+);
+}
+</script>
+
+</body>
+</html>
